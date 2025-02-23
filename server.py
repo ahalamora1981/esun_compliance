@@ -4,6 +4,7 @@ from loguru import logger
 import tomllib
 from pathlib import Path
 from llm.vllm import vllm_chat
+from llm.ollama import ollama_chat
 from pydantic import BaseModel
 from transformers import AutoTokenizer
 
@@ -34,24 +35,27 @@ tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
 
 app = FastAPI()
 
-class CorrectionRequest(BaseModel):
+
+class Request(BaseModel):
     prompt: str
     system_prompt: str
+    temperature: float = 0.0
 
-class CorrectionResponse(BaseModel):
+
+class Response(BaseModel):
     result: str
+
     
 def count_tokens(prompt: str) -> int:
     tokens = tokenizer.encode(prompt, add_special_tokens=True)
     return len(tokens)
 
-@app.post("/correction", response_model=CorrectionResponse)
-def correction(
-    request: CorrectionRequest
-):
+@app.post("/correction", response_model=Response)
+def correction(request: Request):
     try:
         prompt = request.prompt * 2
         system_prompt = request.system_prompt
+        temperature = request.temperature
         token_limit = config['app']['correction']['token_limit']
         prompt_list = prompt.split("\n")
         tokens_count_total = 0
@@ -76,15 +80,68 @@ def correction(
         
         result = vllm_chat(
             prompt=prompt_total, 
-            system_prompt=system_prompt
+            system_prompt=system_prompt,
+            temperature=temperature
         )
         result_total += result
 
-        return CorrectionResponse(result=result_total.strip())
+        return Response(result=result_total.strip())
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/summary", response_model=Response)
+def summary(request: Request):
+    try:
+        prompt = request.prompt
+        system_prompt = request.system_prompt
+        temperature = request.temperature
+        token_limit = config['app']['summary']['token_limit']
+        prompt_list = prompt.split("\n")
+        tokens_count_total = 0
+        prompt_accumulate = ""
+        result = ""
+        
+        for prompt in prompt_list:
+            tokens_count = count_tokens(prompt)
+            
+            if tokens_count_total + tokens_count > token_limit:
+                logger.info(f"Surpass token limit: {token_limit}")
+                prompt_total = f"[现有摘要]: \n{result}\n\n[额外通话内容]: \n{prompt_accumulate}"
+                result = vllm_chat(
+                    prompt=prompt_total, 
+                    system_prompt=system_prompt,
+                    temperature=temperature
+                )
+                prompt_accumulate = prompt + "\n"
+                tokens_count_total = tokens_count
+            else:
+                prompt_accumulate += prompt + "\n"
+                tokens_count_total += tokens_count
+        
+        prompt_total = f"[现有摘要]: \n{result}\n\n[额外内容]: \n{prompt_accumulate}"
+        result = vllm_chat(
+            prompt=prompt_total, 
+            system_prompt=system_prompt,
+            temperature=temperature
+        )
+        return Response(result=result.strip())
+    except Exception as e:
+        logger.error(e)
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/check-scenario", response_model=Response)
+def check_scenario(request: Request):
+    try:
+        result = ollama_chat(
+            prompt=request.prompt, 
+            system_prompt=request.system_prompt,
+            temperature=request.temperature
+        )
+        return Response(result=result.strip())
+    except Exception as e:
+        logger.error(e)
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     import uvicorn

@@ -2,10 +2,20 @@
 host = "0.0.0.0"
 port = 8000
 
+# VLLM with Qwen 2.5 72B 8bit - 15K Context
 [vllm]
 host = "10.101.100.11"
 port = 8021
 max_tokens = 7_000
 
+# Ollama with Deepseek R1 32B 8bit - 30K Context
+[ollama]
+host = "10.101.100.11"
+port = 8031
+max_tokens = 7_000
+
 [app.correction]
-token_limit = 2_000
+token_limit = 3_000
+
+[app.summary]
+token_limit = 3_000

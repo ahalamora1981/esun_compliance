@@ -10,9 +10,9 @@ with open(Path(__file__).parent.parent / "config.toml", "rb") as f:
     config = tomllib.load(f)
 
 
-VLLM_HOST = config["vllm"]["host"]
-VLLM_PORT = config["vllm"]["port"]
-MAX_TOKENS = config["vllm"]["max_tokens"]
+OLLAMA_HOST = config["ollama"]["host"]
+OLLAMA_PORT = config["ollama"]["port"]
+MAX_TOKENS = config["ollama"]["max_tokens"]
 
 def timer(func):
     def wrapper(*args, **kwargs):
@@ -24,20 +24,20 @@ def timer(func):
         return result
     return wrapper
 
-def vllm_chat(
+def ollama_chat(
     prompt: str, 
     system_prompt: str = "", 
     history: list | None = None,
     temperature: float = 0.0
 ):
-    url = f"http://{VLLM_HOST}:{VLLM_PORT}/chat"  # Adjust the URL if needed
+    url = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/chat"  # Adjust the URL if needed
     
     payload = {
         "prompt": prompt,
         "system_prompt": system_prompt,
         "history": history or [],
         "max_tokens": MAX_TOKENS,
-        "tempreture": temperature  # 此处key为“tempreture”，与value变量名“temperature”不同，这是因为vllm API中的 “tempreture” 为错别字
+        "temperature": temperature
     }
     
     response = requests.post(url, json=payload)
@@ -45,15 +45,15 @@ def vllm_chat(
     
     return response.json()["content"]
 
-def vllm_chat_stream(prompt, system_prompt="", history=None, temperature=0.0):
-    url = f"http://{VLLM_HOST}:{VLLM_PORT}/chat-stream"  # Adjust the URL if needed
+def ollama_chat_stream(prompt, system_prompt="", history=None, temperature=0.0):
+    url = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/chat-stream"  # Adjust the URL if needed
     
     payload = {
         "prompt": prompt,
         "system_prompt": system_prompt,
         "history": history or [],
         "max_tokens": MAX_TOKENS,
-        "tempreture": temperature  # 此处key为“tempreture”，与value变量名“temperature”不同，这是因为vllm API中的 “tempreture” 为错别字
+        "temperature": temperature
     }
     
     response = requests.post(url, json=payload, stream=True)
@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
     start = time.time()
 
-    for content in vllm_chat_stream(user_prompt, system_prompt):
+    for content in ollama_chat_stream(user_prompt, system_prompt):
         print(content, end='', flush=True)
         full_response += content
         
@@ -83,6 +83,6 @@ if __name__ == "__main__":
     print(f"Duration: {duration:.2f}")
 
     # print("\n\nTesting non-streaming chat:")
-    # non_stream_response = vllm_chat(user_prompt, system_prompt)
+    # non_stream_response = ollama_chat(user_prompt, system_prompt)
     # print("Non-streaming response:", non_stream_response)
 

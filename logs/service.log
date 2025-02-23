@@ -137,3 +137,12 @@
 2025-02-23 09:45:50 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8021/chat
 2025-02-23 09:48:49 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8021/chat
 2025-02-23 10:05:02 | INFO | Surpass token limit: 2000
+2025-02-23 11:18:24 | INFO | Surpass token limit: 300
+2025-02-23 12:29:00 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8031/chat
+2025-02-23 12:29:00 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8031/chat
+2025-02-23 12:29:11 | ERROR | 500 Server Error: Internal Server Error for url: http://10.101.100.11:8031/chat
+2025-02-23 12:29:11 | ERROR | 500 Server Error: Internal Server Error for url: http://10.101.100.11:8031/chat
+2025-02-23 12:29:33 | ERROR | 500 Server Error: Internal Server Error for url: http://10.101.100.11:8031/chat
+2025-02-23 12:29:33 | ERROR | 500 Server Error: Internal Server Error for url: http://10.101.100.11:8031/chat
+2025-02-23 13:16:26 | ERROR | 'Request' object has no attribute 'scenario_name'
+2025-02-23 13:17:51 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8031/chat
