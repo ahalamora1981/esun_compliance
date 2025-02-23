@@ -68,14 +68,17 @@ def load_check_scenario_prompts(scenario_name: str, scenario_description: str) -
 
 @timer
 def main():
-    ### Correction ### 
-    # # media_type = "call"
-    # media_type = "meeting"
-    # # media_type = "stream_and_video"
-    # # media_type = "social_media"
+    # BASE_URL = "http://localhost:8000"
+    BASE_URL = "http://10.101.100.13:8010"
     
-    # system_prompt, prompt = load_correction_prompts(media_type)
-    # url = "http://localhost:8000/correction"
+    ### Correction ### 
+    # media_type = "call"
+    media_type = "meeting"
+    # media_type = "stream_and_video"
+    # media_type = "social_media"
+    
+    system_prompt, prompt = load_correction_prompts(media_type)
+    url = f"{BASE_URL}/correction"
     ### End Correction ### 
 
     ### Summary ###
@@ -83,15 +86,15 @@ def main():
     # media_type = "meeting"
     
     # system_prompt, prompt = load_summary_prompts(media_type)
-    # url = "http://localhost:8000/summary"
+    # url = f"{BASE_URL}/summary"
     ### End Summary ###
     
     ### Check Scenario ###
-    scenario_name = "虚假宣传检查"
-    scenario_description = "- 根据背景信息，检查内容中是否有虚假宣传"
+    # scenario_name = "虚假宣传检查"
+    # scenario_description = "- 根据背景信息，检查内容中是否有虚假宣传"
     
-    system_prompt, prompt = load_check_scenario_prompts(scenario_name, scenario_description)
-    url = "http://localhost:8000/check-scenario"
+    # system_prompt, prompt = load_check_scenario_prompts(scenario_name, scenario_description)
+    # url = f"{BASE_URL}/check-scenario"
     ### End Check Scenario ###
     
     request = Request(
