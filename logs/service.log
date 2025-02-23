@@ -133,3 +133,7 @@
 2025-02-23 00:00:00 | INFO | Surpass token limit: 200
 2025-02-23 00:00:15 | INFO | Surpass token limit: 200
 2025-02-23 00:00:15 | INFO | Surpass token limit: 200
+2025-02-23 09:45:50 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8021/chat
+2025-02-23 09:45:50 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8021/chat
+2025-02-23 09:48:49 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8021/chat
+2025-02-23 10:05:02 | INFO | Surpass token limit: 2000
