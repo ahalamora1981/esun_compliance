@@ -146,3 +146,16 @@
 2025-02-23 12:29:33 | ERROR | 500 Server Error: Internal Server Error for url: http://10.101.100.11:8031/chat
 2025-02-23 13:16:26 | ERROR | 'Request' object has no attribute 'scenario_name'
 2025-02-23 13:17:51 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8031/chat
+2025-02-28 10:56:45 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8025/chat
+2025-02-28 14:51:05 | ERROR | HTTPConnectionPool(host='10.101.100.11', port=8021): Max retries exceeded with url: /chat (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001D5A71933E0>: Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。'))
+2025-02-28 15:09:56 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8025/chat
+2025-02-28 15:13:03 | ERROR | '\n    "检查结论"'
+2025-02-28 15:13:03 | ERROR | '\n    "检查结论"'
+2025-02-28 15:23:19 | ERROR | '\n    \\"检查结论\\"'
+2025-02-28 15:36:21 | ERROR | 500 Server Error: Internal Server Error for url: http://10.101.100.11:8021/chat
+2025-02-28 15:40:39 | ERROR | list index out of range
+2025-02-28 15:40:39 | ERROR | list index out of range
+2025-02-28 15:44:16 | ERROR | list index out of range
+2025-02-28 15:44:16 | ERROR | list index out of range
+2025-02-28 16:19:01 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8025/chat
+2025-02-28 16:19:01 | ERROR | 502 Server Error: Bad Gateway for url: http://10.101.100.11:8025/chat
